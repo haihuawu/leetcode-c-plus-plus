@@ -74,3 +74,481 @@ int searchInsert(vector<int>& nums, int target) {
 }
 
 
+//
+//  main.cpp
+//  LC38
+//
+//  Created by H.HUA WU on 11/28/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+
+string countAndSay(int n) {
+    if(n==1)
+    {
+        return "1";
+    }
+    string s = "";
+    string str = countAndSay(n-1)+"*";
+    int count = 1;
+    for(int i=0;i<str.length()-1;i++)
+    {
+        if(str[i] == str[i+1])
+        {
+            count++;
+        }
+        else
+        {
+            s = s+ to_string(count)+str[i];
+            count = 1;
+            
+        }
+    }
+    
+    return s;
+}
+
+
+//
+//  main.cpp
+//  LC53
+//
+//  Created by H.HUA WU on 11/28/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+
+int maxSubArray(vector<int>& nums) {
+    int size = (int) nums.size();
+    int max = nums[0];
+    int dp[size];
+    dp[0] = nums[0];
+    for(int i=1;i<size;i++)
+    {
+        dp[i] = nums[i] + (dp[i-1]>0? dp[i-1]:0);
+        max = max>dp[i]? max:dp[i];
+    }
+    return max;
+}
+
+
+//
+//  main.cpp
+//  LC58
+//
+//  Created by H.HUA WU on 11/29/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+int lengthOfLastWord(string s) {
+    int result = 0;
+    int tail = int (s.length()-1);
+    while(tail >= 0 && s[tail] == ' ')
+    {
+        tail--;
+    }
+    while(tail>=0 && s[tail] != ' ')
+    {
+        result++;
+        tail--;
+    }
+    return result;
+}
+
+
+//
+//  main.cpp
+//  LC66
+//
+//  Created by H.HUA WU on 11/29/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+
+vector<int> plusOne(vector<int>& digits) {
+    int len = int(digits.size());
+    for(int i=len-1;i>=0;i--)
+    {
+        if(digits[i] == 9)
+        {
+            digits[i] = 0;
+        }
+        else
+        {
+            digits[i] += 1;
+            return digits;
+        }
+    }
+    digits[0] = 1;
+    digits.push_back(0);
+    return digits;
+}
+
+
+//
+//  main.cpp
+//  LC67
+//
+//  Created by H.HUA WU on 11/29/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+using namespace std;
+
+string addBinary(string a, string b) {
+    string s = "";
+    int asize = int (a.size()-1);
+    int bsize = int (b.size()-1);
+    int gap = 0;
+    while(asize >= 0 || bsize >= 0)
+    {
+        string aa = asize >=0 ? a.substr(asize,1) : "0";
+        string bb = bsize >=0 ? b.substr(bsize,1) : "0";
+        int ai = atoi(aa.c_str());
+        int bi = atoi(bb.c_str());
+        if(ai+bi+gap >= 2)
+        {
+            string temp = to_string((ai+bi+gap)%2);
+            s = temp+s;
+            gap = 1;
+        }
+        else
+        {
+            s = to_string(ai+bi+gap) + s;
+            gap = 0;
+        }
+        asize--;
+        bsize--;
+        
+    }
+    if(gap == 1)
+    {
+        s = "1" + s;
+    }
+    return s;
+}
+
+
+//
+//  main.cpp
+//  LC69
+//
+//  Created by H.HUA WU on 11/30/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+int mySqrt(int x) {
+    int left = 1;
+    int right = x;
+    while(left<=right)
+    {
+        int mid = left + (right-left)/2;
+        if(mid == x/mid)
+        {
+            return mid;
+        }
+        else if(mid>x/mid)
+        {
+            right = mid-1;
+        }
+        else
+        {
+            left = mid+1;
+        }
+    }
+    return right;
+}
+
+//
+//  main.cpp
+//  LC70
+//
+//  Created by H.HUA WU on 11/30/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+int climbStairs(int n) {
+    if(n<=2)
+    {
+        return n;
+    }
+    int *T = new int[n+1];
+    T[0] = 0;
+    T[1] = 1;
+    T[2] = 2;
+    for(int i=3;i<=n;i++)
+    {
+        T[i] = T[i-1]+T[i-2];
+    }
+    int result = T[n];
+    delete []T;
+    return result;
+}
+
+//
+//  main.cpp
+//  LC83
+//
+//  Created by H.HUA WU on 12/1/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+ListNode* deleteDuplicates(ListNode* head) {
+    if(head == NULL)
+    {
+        return head;
+    }
+    ListNode* p = head;
+    ListNode* q = p->next;
+    while(q)
+    {
+        if(q->val == p->val)
+        {
+            q = q->next;
+        }
+        else
+        {
+            p->next = q;
+            p = q;
+            q = q->next;
+        }
+    }
+    p->next = q;
+    return head;
+}
+
+//
+//  main.cpp
+//  LC88
+//
+//  Created by H.HUA WU on 12/1/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+    int index = m+n-1;
+    int i = m-1;
+    int j = n-1;
+    while(i>=0&&j>=0)
+    {
+        nums1[index--] = nums1[i]>nums2[j]? nums1[i--]:nums2[j--];
+    }
+    if(j>=0)
+    {
+        for(int x=0;x<=j;x++)
+        {
+            nums1[x] = nums2[x];
+        }
+    }
+}
+
+
+//
+//  main.cpp
+//  LC100
+//
+//  Created by H.HUA WU on 12/3/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+bool isSameTree(TreeNode* p, TreeNode* q) {
+    if(p==NULL || q == NULL)
+    {
+        return p == q;
+    }
+    
+    if(p->val != q->val)
+    {
+        return false;
+    }
+    else
+    {
+        return isSameTree(p->left, q->left)&&isSameTree(p->right, q->right);
+    }
+}
+
+//
+//  main.cpp
+//  LC101
+//
+//  Created by H.HUA WU on 12/3/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+bool comparenode(TreeNode* p, TreeNode* q)
+{
+    if(p == NULL && q == NULL)
+    {
+        return true;
+    }
+    if(p == NULL || q == NULL)
+    {
+        return false;
+    }
+    if(p->val != q->val)
+    {
+        return false;
+    }
+    
+    return comparenode(p->left, q->right) && comparenode(p->right, q->left);
+}
+
+bool isSymmetric(TreeNode* root) {
+    if(root == NULL)
+    {
+        return true;
+    }
+    return comparenode(root->left, root->right);
+}
+
+
+//
+//  main.cpp
+//  LC104
+//
+//  Created by H.HUA WU on 12/3/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+int maxDepth(TreeNode* root) {
+    return root == NULL? 0 : max(maxDepth(root->left),maxDepth(root->right))+1;
+}
+
+
+//
+//  main.cpp
+//  LC107
+//
+//  Created by H.HUA WU on 12/4/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+vector<vector<int>> result;
+
+void DFS(TreeNode* root, int level)
+{
+    if(root != NULL)
+    {
+        if(level == result.size())
+        {
+            result.push_back(vector<int>());
+        }
+        result[level].push_back(root->val);
+        if(root->left)
+        {
+            DFS(root->left, level+1);
+        }
+        if(root->right)
+        {
+            DFS(root->right, level+1);
+        }
+    }
+}
+
+vector<vector<int>> levelOrderBottom(TreeNode* root) {
+    DFS(root, 0);
+    reverse(result.begin(), result.end());
+    return result;
+}
+
+//
+//  main.cpp
+//  LC108
+//
+//  Created by H.HUA WU on 12/4/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+TreeNode* sortedArrayToBST(vector<int>& nums) {
+    if(nums.size()==0)
+    {
+       return NULL;
+    }
+    if(nums.size()==1)
+    {
+        TreeNode* p = new TreeNode(nums[0]);
+        return p;
+    }
+
+    int mid = nums[nums.size()/2];
+    TreeNode* root = new TreeNode(mid);
+    vector<int> leftnums(nums.begin(),nums.begin()+nums.size()/2);
+    vector<int> rightnums(nums.begin()+nums.size()/2+1,nums.end());
+    root->left = sortedArrayToBST(leftnums);
+    root->right = sortedArrayToBST(rightnums);
+    return root;
+}
+
+
+//
+//  main.cpp
+//  LC110
+//
+//  Created by H.HUA WU on 12/4/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+int depth(TreeNode* root)
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    return max(depth(root->left),depth(root->right))+1;
+}
+
+bool isBalanced(TreeNode* root) {
+    if(root == NULL)
+    {
+        return true;
+    }
+    return abs(depth(root->left)-depth(root->right))<=1 && isBalanced(root->left) && isBalanced(root->right);
+}
+
+
+//
+//  main.cpp
+//  LC111
+//
+//  Created by H.HUA WU on 12/5/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+
+int minDepth(TreeNode* root) {
+    if(root == NULL)
+    {
+        return 0;
+    }
+    if(root->left == NULL)
+    {
+        return minDepth(root->right) + 1;
+    }
+    if(root->right == NULL)
+    {
+        return minDepth(root->left) + 1;
+    }
+    return min(minDepth(root->left),minDepth(root->right)) + 1;
+}
+
+
+
+//
+//  main.cpp
+//  LC112
+//
+//  Created by H.HUA WU on 12/5/17.
+//  Copyright © 2017 H.HUA WU. All rights reserved.
+//
+
+bool hasPathSum(TreeNode* root, int sum) {
+    if(root == NULL)
+    {
+       return false;
+    }
+    if(root->val == sum && root->left == NULL && root->right == NULL)
+    {
+        return true;
+    }
+    return hasPathSum(root->left, sum-root->val) || hasPathSum(root->right, sum-root->val);
+}
