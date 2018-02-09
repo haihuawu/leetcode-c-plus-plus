@@ -1,4 +1,301 @@
 C++
+//  LC1
+vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> result;
+	int size = nums.size();
+	int i,j;
+	for(i=0;i<size-1;i++)
+	{
+		bool bBreak = false;
+		for(j=i+1;j<size;j++)
+		{
+			if(nums[i] + nums[j] == target)
+			{
+				bBreak = true;
+				break;
+			}
+		}
+		if(bBreak == true)
+		{
+			break;
+		}
+	}
+	result.push_back(i);
+	result.push_back(j);
+	return result;
+        
+    }
+
+
+//  LC7
+int reverse(int x) {
+        int result = 0;
+	bool bPositive = x>=0? true:false;
+	if(bPositive == false)
+	{
+		x=-x;
+	}
+
+	while(x>0)
+	{
+		int temp = x-x/10*10;
+		if(result > INT_MAX)
+		{
+			return 0;
+		}
+		result = result*10+temp;
+		x=x/10;
+	}
+
+	if(result<0)
+	{
+		result = 0;
+	}
+	else
+	{
+		if(bPositive == false)
+		{
+			result = -result;
+		}
+	}
+	return result;
+        
+    }
+
+
+//  LC9
+bool isPalindrome(int x) {
+        if(x<0) return false;
+	int div = 1;
+	while(x/div >=10)
+	{
+		div *=10;
+	}
+
+	//cout << div << endl;
+
+	while(x>0)
+	{
+		if(x/div != x%10)
+		{
+			return false;
+		}
+		x = (x%div)/10;
+		div /=100;
+	}
+	return true;
+        
+    }
+
+
+//  LC13
+static int getValue(char c)
+{
+	int value = 0;
+	switch(c)
+	{
+	case 'I':
+		value = 1;
+		break;
+	case 'V':
+		value = 5;
+		break;
+	case 'X':
+		value = 10;
+		break;
+	case 'L':
+		value = 50;
+		break;
+	case 'C':
+		value = 100;
+		break;
+	case 'D':
+		value = 500;
+		break;
+	case 'M':
+		value = 1000;
+		break;
+	default:
+		break;
+	}
+	return value;
+}
+    int romanToInt(string s) {
+        int output = getValue(s[0]);
+	for(int i=1;i<(int)s.size();i++)
+	{
+		//<=
+		if(getValue(s[i])<=getValue(s[i-1]))
+		{
+			output += getValue(s[i]);
+		}
+		//>
+		else
+		{
+			output = output + getValue(s[i]) - 2*getValue(s[i-1]);
+		}
+	}
+	return output;
+        
+    }
+
+
+//  LC14
+string longestCommonPrefix(vector<string>& strs) {
+        if(strs.size() == 0)
+    {
+    	return "";
+    }
+	string same=strs[0];
+	for(int i=1;i<(int)strs.size();i++)
+	{
+		int j;
+		for(j=0;j<(int)same.length();j++)
+		{
+			if(same[j] != strs[i][j])
+			{
+				break;
+			}
+		}
+		same = same.substr(0,j);
+	}
+    return same;
+        
+    }
+
+
+
+//  LC20
+bool isValid(string s) {
+        stack<char> parenthese;
+	int nSize = s.length();
+	if(nSize == 0 || nSize == 1)
+	{
+		return false;
+	}
+
+	int nIndex = 0;
+	while(nIndex<nSize)
+	{
+		if(parenthese.size() == 0)
+		{
+			parenthese.push(s[nIndex]);
+		}
+		else
+		{
+			char tmp = parenthese.top();
+
+			if((tmp == '[' && s[nIndex] == ']') || (tmp == '(' && s[nIndex] == ')') || (tmp == '{'&& s[nIndex] == '}'))
+			{
+				parenthese.pop();
+			}
+			else
+			{
+				parenthese.push(s[nIndex]);
+			}
+		}
+		nIndex++;
+	}
+
+	return parenthese.size()==0? true:false;
+        
+    }
+
+//  LC21
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1 == NULL)
+	{
+		return l2;
+	}
+	else if(l2 == NULL)
+	{
+		return l1;
+	}
+	
+	ListNode* head = new ListNode(0);
+	if(l1->val <= l2->val)
+	{
+		head = l1;
+		l1 = l1->next;
+	}
+	else
+	{
+		head = l2;
+		l2 = l2->next;
+	}
+	
+	ListNode* p = head;
+	while(l1!=NULL && l2!=NULL)
+	{
+		if(l1->val <= l2->val)
+		{
+			p->next = l1;
+			p = p->next;
+			l1 = l1->next;
+		}
+		else
+		{
+			p->next = l2;
+			p = p->next;
+			l2 = l2->next;
+		}
+	}
+	
+	if(l1 == NULL)
+	{
+		p->next = l2;
+	}
+	if(l2 == NULL)
+	{
+		p->next = l1;
+	}
+	return head;
+        
+    }
+
+
+//  LC26
+int removeDuplicates(vector<int>& nums) {
+        int size = nums.size();
+        if(size < 2)
+        {
+            return size;
+        }
+
+        int count = 1;
+        for(int i = 1; i<size;i++)
+        {
+            if(nums[i]!=nums[i-1])
+            {
+                nums[count++] = nums[i];
+            }
+
+        }
+        return count;
+        
+    }
+
+
+//  LC27
+ int removeElement(vector<int>& nums, int val) {
+        if(nums.size()==0)
+   {
+	   return 0;
+   }
+
+   int index = 0;
+   for(int i = 0;i<(int)nums.size();i++)
+   {
+	   if(nums[i] != val)
+	   {
+		   nums[index++]=nums[i];
+	   }
+   }
+   return index;
+        
+    }
+
+
 //
 //  main.cpp
 //  LC28
@@ -1061,3 +1358,845 @@ bool isUgly(int num) {
         return false;
     }
 }
+
+
+//
+//  main.cpp
+//  LC268
+//
+//  Created by H.HUA WU on 1/13/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int missingNumber(vector<int>& nums) {
+    long n = nums.size();
+    long sum = 0;
+    for(long i = 0;i<n;i++)
+    {
+        sum = nums[i];
+    }
+    return n*(n+1)/2 - sum;
+}
+
+
+//
+//  main.cpp
+//  LC283
+//
+//  Created by H.HUA WU on 1/13/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+void moveZeroes(vector<int>& nums) {
+    int n = nums.size();
+    for(int i=0;i<n;i++)
+    {
+        if(nums[i] == 0)
+        {
+            int p = i+1;
+            while(p<n)
+            {
+                if(nums[p] != 0)
+                {
+                    nums[i] = nums[p];
+                    nums[p] = 0;
+                    break;
+                }
+                p++;
+            }
+            if(p == n)
+            {
+                break;
+            }
+        }
+        
+    }
+}
+
+
+//
+//  main.cpp
+//  LC374
+//
+//  Created by H.HUA WU on 2/8/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int guessNumber(int n) {
+    if(n==1)
+    {
+        return n;
+    }
+    int begin = 1, end = n;
+    int mid = 0;
+    while(begin <= end){
+        mid = begin + (end-begin)/2;
+        int res = guess(mid);
+        if(res == 0){
+            break;
+        }
+        else if(res == -1){
+            end = mid-1;
+        }
+        else if(res == 1){
+            
+            begin = mid+1;
+        }
+    }
+    return mid;
+}
+
+
+//
+//  main.cpp
+//  LC383
+//
+//  Created by H.HUA WU on 2/8/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+bool canConstruct(string ransomNote, string magazine) {
+    unordered_map<char,int> map(26);
+    for(int i=0; i<magazine.length();i++){
+        map[magazine[i]]++;
+    }
+    for(int i=0;i<ransomNote.length();i++){
+        if(--map[ransomNote[i]] < 0){
+            return false;
+        }
+    }
+    return true;
+}
+
+
+//
+//  main.cpp
+//  LC387
+//
+//  Created by H.HUA WU on 2/9/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int firstUniqChar(string s) {
+    unordered_map<char, int> map;
+    for (int i=0; i<s.length(); i++) {
+        map[s[i]]++;
+    }
+    
+    for(int i=0; i<s.length(); i++) {
+        if (map[s[i]] == 1) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+//
+//  main.cpp
+//  LC389
+//
+//  Created by H.HUA WU on 2/9/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+char findTheDifference(string s, string t) {
+    unordered_map<char, int> map;
+    for(int i=0; i<s.length(); i++) {
+        map[s[i]]++;
+    }
+    
+    for (int i=0; i<t.length(); i++)
+    {
+        if(map[t[i]] == 0) { return t[i];}
+        map[t[i]]--;
+    }
+    return 0;
+}
+
+
+//
+//  main.cpp
+//  LC566
+//
+//  Created by H.HUA WU on 2/1/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+vector<vector<int>> matrixReshape(vector<vector<int>>& nums, int r, int c) {
+    int numsR = int(nums.size());
+    int numsC = int(nums[0].size());
+    int newSize = r*c;
+    if(numsR*numsC != newSize){
+        return nums;
+    }
+    vector<vector <int> > res(r ,vector<int>(c));
+    for(int i=0;i<newSize;i++){
+        res[i/c][i%c] = nums[i/numsC][i%numsC];
+    }
+    return res;
+}
+
+
+//
+//  main.cpp
+//  LC572
+//
+//  Created by H.HUA WU on 2/1/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int getDepth(TreeNode* tN, int d)
+{
+    if(tN == NULL){
+        return -1;
+    }
+    
+    int depth = max(getDepth(tN->left, d),getDepth(tN->right, d))+1;
+    if(depth == d){
+        nodes.push_back(tN);
+    }
+    return depth;
+}
+
+bool isSame(TreeNode* n, TreeNode* t)
+{
+    if(n == NULL && t == NULL){
+        return true;
+    }
+    if(n == NULL || t == NULL){
+        return false;
+    }
+    if(n->val != t->val){
+        return false;
+    }
+    return isSame(n->left, t->left) && isSame(n->right, t->right);
+}
+
+bool isSubtree(TreeNode* s, TreeNode* t) {
+    //find node with same depth
+    if(s == NULL && t == NULL){
+        return true;
+    }
+    if(s == NULL || t == NULL){
+        return false;
+    }
+    getDepth(s, getDepth(t, -1));
+    
+    //compare
+    for(TreeNode* n: nodes){
+        if(isSame(n, t)){
+            return true;
+        }
+    }
+    return false;
+}
+
+
+//
+//  main.cpp
+//  LC575
+//
+//  Created by H.HUA WU on 2/2/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int distributeCandies(vector<int>& candies) {
+    sort(candies.begin(), candies.end());
+    int size = int(candies.size());
+    int count = 0;
+    for (int i=0;i<size;i++){
+        if(i == 0 || (i>0 && candies[i] != candies[i-1])){
+            count++;
+        }
+    }
+    return min(size/2,count);
+}
+
+
+//
+//  main.cpp
+//  LC581
+//
+//  Created by H.HUA WU on 2/2/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int findUnsortedSubarray(vector<int>& nums) {
+    int begin = -1;
+    int end = -1;
+    int max = INT_MIN;
+    int size = int(nums.size());
+    for (int i=0; i<size; i++){
+        if(max > nums[i]){
+            if(begin == -1){
+                begin = i-1;
+            }
+            while (begin-1>=0 && nums[begin-1]>nums[i]){
+                begin--;
+            }
+            end = i+1;
+        }
+        else{
+            max = nums[i];
+        }
+    }
+    return end - begin;
+}
+
+
+//
+//  main.cpp
+//  LC594
+//
+//  Created by H.HUA WU on 2/3/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int findLHS(vector<int>& nums) {
+    int nsize = int(nums.size());
+    if (nsize <= 1){
+        return 0;
+    }
+    sort(nums.begin(),nums.end());
+    int begin = 0;
+    int newbegin = 0;
+    int len = 0;
+    for (int i = 1; i < nsize; i++){
+        if(nums[i] - nums[begin] > 1){
+            begin = newbegin;
+        }
+        if(nums[i] != nums[i-1]){
+            newbegin = i;
+        }
+        if(nums[i] -1 == nums[begin]){
+            len = max(len,i-begin+1);
+        }
+    }
+    return len;
+}
+
+
+//
+//  main.cpp
+//  LC598
+//
+//  Created by H.HUA WU on 2/6/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int maxCount(int m, int n, vector<vector<int>>& ops) {
+    for (int i = 0; i < ops.size(); i++) {
+        m = min(m,ops[i][0]);
+        n = min(n,ops[i][1]);
+    }
+    return m*n;
+}
+
+
+//
+//  main.cpp
+//  LC599
+//
+//  Created by H.HUA WU on 2/6/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+vector<string> findRestaurant(vector<string>& list1, vector<string>& list2) {
+    unordered_map<string,int> list1map;
+    vector<string> res;
+    int min = INT_MAX;
+    for (int i = 0;i<list1.size();i++) {
+        list1map[list1[i]] = i;
+    }
+    
+    for(int i = 0;i<list2.size(); i++) {
+        if(list1map.count(list2[i]) != 0) {
+            if(i + list1map[list2[i]] < min){
+                min = i + list1map[list2[i]];
+                cout << i << " min is " << min << endl;
+                res.clear();
+                res.push_back(list2[i]);
+            } else if(i + list1map[list2[i]] == min){
+                res.push_back(list2[i]);
+            }
+        }
+    }
+    return res;
+}
+
+
+//
+//  main.cpp
+//  LC606
+//
+//  Created by H.HUA WU on 2/7/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+string tree2str(TreeNode* t) {
+    if (t == NULL) {return "";}
+    string strRes = to_string(t->val);
+    if (t->left != NULL) {
+        strRes += "(" + tree2str(t->left) + ")";
+    } else if (t->right != NULL) strRes += "()";
+    if (t->right != NULL) {
+        strRes += "(" + tree2str(t->right) + ")";
+    }
+    return strRes;
+}
+
+
+//
+//  main.cpp
+//  LC617
+//
+//  Created by H.HUA WU on 2/7/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+TreeNode* mergeTrees(TreeNode* t1, TreeNode* t2) {
+    if (t1 && t2) {
+        TreeNode* resTree = new TreeNode(t1->val + t2->val);
+        resTree->left = mergeTrees(t1->left, t2->left);
+        resTree->right = mergeTrees(t1->right, t2->right);
+        return resTree;
+    } else {
+        return t1? t1 : t2;
+    }
+}
+
+
+//
+//  main.cpp
+//  LC695
+//
+//  Created by H.HUA WU on 1/31/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int dfs(vector<vector<int>>& grid, int i,int j)
+{
+    if(i>=0 && i<grid.size() && j>=0 && j<grid[0].size() && grid[i][j] == 1)
+    {
+        grid[i][j] = 0;
+        return 1+dfs(grid,i+1,j)+dfs(grid, i-1, j)+dfs(grid, i, j+1)+dfs(grid, i, j-1);
+    }
+    return 0;
+}
+
+int maxAreaOfIsland(vector<vector<int>>& grid) {
+    int maxArea = 0;
+    for(int i=0;i<grid.size();i++)
+    {
+        for(int j=0;j<grid[0].size();j++)
+        {
+            if(grid[i][j] == 1)
+            {
+                maxArea = max(maxArea,dfs(grid, i, j));
+            }
+        }
+    }
+    
+    return maxArea;
+}
+
+
+//
+//  main.cpp
+//  LC696
+//
+//  Created by H.HUA WU on 1/31/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int countBinarySubstrings(string s) {
+    int res = 0;
+    int nPre = 0;
+    int nCur = 1;
+    for(int i = 1;i<s.length();i++)
+    {
+        if(s[i] == s[i-1])
+        {
+            nCur++;
+        }
+        else
+        {
+            nPre = nCur;
+            nCur = 1;
+        }
+        if(nPre >= nCur)
+        {
+            res++;
+        }
+    }
+    return res;
+}
+
+
+//
+//  main.cpp
+//  LC697
+//
+//  Created by H.HUA WU on 1/29/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int findShortestSubArray(vector<int>& nums) {
+    //map
+    unordered_map<int,vector<int>> mp;
+    int size = int(nums.size());
+    for(int i=0;i<size;i++)
+    {
+        mp[nums[i]].push_back(i);
+    }
+    //degree
+    int degree = 0;
+    for(auto it=mp.begin();it!=mp.end();it++)
+    {
+        degree = max(degree,int(it->second.size()));
+    }
+    //shortest path
+    int res = size;
+    for(auto it=mp.begin();it!=mp.end();it++)
+    {
+        if(int(it->second.size()) == degree)
+        {
+            res = min(res,it->second.back()-it->second[0] + 1);
+        }
+    }
+    return res;
+}
+
+
+//
+//  main.cpp
+//  LC717
+//
+//  Created by H.HUA WU on 1/29/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+bool dfs(vector<int>& bits, int idx)
+{
+    if(idx == bits.size()) return false;
+    if(idx == bits.size()-1 && bits[idx] == 0) return true;
+    if(bits[idx] == 1)
+    {
+        return dfs(bits,idx+2);
+    }
+    else
+    {
+        return dfs(bits,idx+1);
+    }
+}
+
+bool isOneBitCharacter(vector<int>& bits) {
+    return dfs(bits,0);
+}
+
+
+//
+//  main.cpp
+//  LC720
+//
+//  Created by H.HUA WU on 1/29/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+string longestWord(vector<string>& words) {
+    sort(words.begin(),words.end());
+    unordered_set<string> strSet;
+    string res;
+    for(string w : words)
+    {
+        if(w.size() == 1 || strSet.count(w.substr(0,w.size()-1)))
+        {
+            res = w.size() > res.size()? w:res;
+            strSet.insert(w);
+        }
+    }
+    return res;
+}
+
+
+//
+//  main.cpp
+//  LC724
+//
+//  Created by H.HUA WU on 1/28/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int pivotIndex(vector<int>& nums) {
+    int size = int(nums.size());
+    if(size == 0)
+    {
+        return -1;
+    }
+    int left = 0;
+    int right = 0;
+    for(int i=0;i<size;i++)
+    {
+        right += nums[i];
+    }
+    for(int i=0;i<size;left+=nums[i],right-=nums[i],i++)
+    {
+        if(left == right - nums[i])
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+//
+//  main.cpp
+//  LC728
+//
+//  Created by H.HUA WU on 1/26/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+vector<int> selfDividingNumbers(int left, int right) {
+    vector<int> res;
+    for(int i = left; i<=right; i++)
+    {
+        if(i<10)
+        {
+            res.push_back(i);
+        }
+        else
+        {
+            int temp = i;
+            bool bret = true;
+            while(temp>0)
+            {
+                if(temp%10 == 0 || i%(temp%10) != 0)
+                {
+                    bret = false;
+                    break;
+                }
+                temp = temp/10;
+            }
+            if(bret == true)
+            {
+                res.push_back(i);
+            }
+        }
+    }
+    return res;
+}
+
+//
+//  main.cpp
+//  LC733
+//
+//  Created by H.HUA WU on 1/25/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+void dfs(vector<vector<int>>& image,int r,int c,int c0,int c1)
+{
+    if(r<0 || c<0 || r>=image.size() || c>=image[0].size() || image[r][c] != c0)
+    {
+        return;
+    }
+    image[r][c] = c1;
+    dfs(image,r,c-1,c0,c1);
+    dfs(image, r, c+1, c0, c1);
+    dfs(image, r-1, c, c0, c1);
+    dfs(image, r+1, c, c0, c1);
+}
+
+vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+    int oldcolor = image[sr][sc];
+    if(oldcolor !=newColor)
+    {
+        dfs(image,sr,sc,oldcolor,newColor);
+    }
+    return image;
+}
+
+
+//
+//  main.cpp
+//  LC744
+//
+//  Created by H.HUA WU on 1/25/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+char nextGreatestLetter(vector<char>& letters, char target) {
+    if(letters.back()<=target)
+    {
+        return letters[0];
+    }
+    int low=0;
+    int high=int(letters.size())-1;
+    while(low<high)
+    {
+        int mid = (low+high)/2;
+        if(target < letters[mid])
+        {
+            high = mid;
+        }
+        else
+        {
+            low = mid+1;
+        }
+    }
+    return letters[low];
+}
+
+
+//
+//  main.cpp
+//  LC747
+//
+//  Created by H.HUA WU on 1/24/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int dominantIndex(vector<int>& nums) {
+    int size = int(nums.size());
+    if(size == 0)
+    {
+        return -1;
+    }
+    
+    int largest = -1;
+    int seclargest = -1;
+    int resIndex = -1;
+    for(int i = 0;i<size;i++)
+    {
+        if(nums[i] > largest)
+        {
+            seclargest = largest;
+            largest = nums[i];
+            resIndex = i;
+        }
+        else if(nums[i] > seclargest)
+        {
+            seclargest = nums[i];
+        }
+    }
+    
+    if(seclargest*2>largest)
+    {
+        return -1;
+    }
+    return resIndex;
+    
+}
+
+
+//
+//  main.cpp
+//  LC760
+//
+//  Created by H.HUA WU on 1/24/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+vector<int> anagramMappings(vector<int>& A, vector<int>& B) {
+    if(A.size()!=B.size())
+    {
+        return vector<int>();
+    }
+    int size = int(A.size());
+    vector<int> res(size);
+    
+    map<int,int> hashm; // value,index
+    for(int i=0;i<size;i++)
+    {
+        hashm[B[i]] = i;
+    }
+    
+    for(int i=0;i<size;i++)
+    {
+        auto in = hashm.find(A[i]);
+        res[i]= in->second;
+    }
+    return res;
+}
+
+
+//
+//  main.cpp
+//  LC762
+//
+//  Created by H.HUA WU on 1/23/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int isprime(int n)
+{
+    int c = __builtin_popcount(n);
+    return c < 4? c!=1 : (c%2 && c%3);
+}
+
+int countPrimeSetBits(int L, int R) {
+    int count = 0;
+    for(int i=L; i<=R; i++)
+    {
+        if(isprime(i))
+        {
+            count++;
+        }
+    }
+    return count;
+}
+
+
+//
+//  main.cpp
+//  LC766
+//
+//  Created by H.HUA WU on 1/23/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+bool isToeplitzMatrix(vector<vector<int>>& matrix) {
+    int row = int(matrix.size());
+    if(row == 0)
+    {
+        return false;
+    }
+    int col = int(matrix[0].size());
+    for(int i=1;i<row;i++)
+    {
+        for(int j=1;j<col;j++)
+        {
+            if(matrix[i][j] != matrix[i-1][j-1])
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+//
+//  main.cpp
+//  LC771
+//
+//  Created by H.HUA WU on 2/9/18.
+//  Copyright © 2018 H.HUA WU. All rights reserved.
+//
+
+int numJewelsInStones(string J, string S) {
+    unordered_map<char, int> map;
+    for(int i = 0 ; i<J.length(); i++) {
+        map[J[i]]++;
+    }
+    
+    int sum = 0;
+    for(int i=0; i<S.length(); i++) {
+        if(map[S[i]] > 0) sum++;
+    }
+    return sum;
+}
+
